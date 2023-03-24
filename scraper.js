@@ -3,7 +3,12 @@ const pptr = require("puppeteer");
 module.exports = {
     toonily(url) {
         return new Promise(async (resolve, reject) => {
-            const browser = await pptr.launch({ headless: true });
+            const browser = await pptr.launch({
+                headless: true,
+                args: [
+                    "--disable-features=LookalikeUrlNavigationSuggestionsUI",
+                ],
+            });
             const page = await browser.newPage();
 
             await page.goto(url);
@@ -21,7 +26,12 @@ module.exports = {
 
     mangakakalot(url) {
         return new Promise(async (resolve, reject) => {
-            const browser = await pptr.launch({ headless: true });
+            const browser = await pptr.launch({
+                headless: true,
+                args: [
+                    "--disable-features=LookalikeUrlNavigationSuggestionsUI",
+                ],
+            });
             const page = await browser.newPage();
 
             await page.goto(url);
