@@ -5,9 +5,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const browser = await pptr.launch({
                 headless: true,
-                args: [
-                    "--disable-features=LookalikeUrlNavigationSuggestionsUI",
-                ],
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
             });
             const page = await browser.newPage();
 
@@ -28,9 +26,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const browser = await pptr.launch({
                 headless: true,
-                args: [
-                    "--disable-features=LookalikeUrlNavigationSuggestionsUI",
-                ],
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
             });
             const page = await browser.newPage();
 
