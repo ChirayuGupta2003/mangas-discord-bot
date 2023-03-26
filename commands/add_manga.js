@@ -4,8 +4,8 @@ const manga = require("../models/manga.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("add-manhwa")
-        .setDescription("Adds a manhwa to notify")
+        .setName("add-manga")
+        .setDescription("Adds a manga to notify")
         .addStringOption((option) =>
             option
                 .setName("provider")
