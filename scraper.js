@@ -1,45 +1,25 @@
-const pptr = require("puppeteer");
+const axios = require("axios");
+const { parse } = require("node-html-parser");
 
 module.exports = {
-    toonily(url) {
-        return new Promise(async (resolve, reject) => {
-            const browser = await pptr.launch({
-                headless: true,
-                args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            });
-            const page = await browser.newPage();
-
-            await page.goto(url);
-
-            const latestChapter = await page
-                .mainFrame()
-                .waitForSelector(".wp-manga-chapter")
-                .then((element) => element.getProperty("textContent"));
-
-            resolve(
-                parseInt(latestChapter.toString().split(":")[1].split(" ")[1])
-            );
-        });
+    async toonily(url) {
+        const result = await axios.get(url);
+        const root = parse(result.data);
+        return parseInt(
+            root.querySelector(".wp-manga-chapter > a").innerHTML.split(" ")[1]
+        );
     },
 
-    mangakakalot(url) {
-        return new Promise(async (resolve, reject) => {
-            const browser = await pptr.launch({
-                headless: true,
-                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    async mangakakalot(url) {
+        return new Promise((resolve, reject) => {
+            axios.get(url).then((res) => {
+                const root = parse(res.data.toString());
+                resolve(
+                    parseInt(
+                        root.querySelector(".a-h > a").innerHTML.split(" ")[1]
+                    )
+                );
             });
-            const page = await browser.newPage();
-
-            await page.goto(url);
-
-            const latestChapter = await page
-                .mainFrame()
-                .waitForSelector("li.a-h")
-                .then((element) => element.getProperty("textContent"));
-
-            resolve(
-                parseInt(latestChapter.toString().split(":")[1].split(" ")[1])
-            );
         });
     },
 };

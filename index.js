@@ -5,9 +5,9 @@ const path = require("path");
 const mongoose = require("mongoose");
 const manga = require("./models/manga.js");
 const { toonily, mangakakalot } = require("./scraper.js");
+require("console-stamp")(console, "{yyyy mm dd HH:MM:ss}");
 
 config();
-const token = process.env.TOKEN;
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages],
@@ -54,6 +54,8 @@ const mangaWorker = async () => {
     let l;
 
     for (let m of mangas) {
+        console.log(`Checking for new chapters on ${m.url}`);
+
         if (m.provider == "toonily") {
             l = await toonily(m.url);
         }
@@ -64,10 +66,12 @@ const mangaWorker = async () => {
 
         if (l > m.latestChapter) {
             m.latestChapter = l;
-            client.users.fetch(m.userID).then((user) => {
-                user.send(`New Chapter: ${l}\nURL: ${m.url}`);
+            await client.users.fetch(m.userID).then((user) => {
+                const message = `New Chapter: ${l}\nURL: ${m.url}`;
+                user.send(message);
+                console.log(message);
             });
-            m.save();
+            await m.save();
         }
     }
 };
@@ -79,7 +83,7 @@ mongoose
         client.login(process.env.TOKEN).then(() => {
             setInterval(() => {
                 mangaWorker();
-            }, 1000 * 60 * 10);
+            }, 1000 * 10);
         });
     })
     .catch((error) => {
