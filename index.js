@@ -10,17 +10,16 @@ require("console-stamp")(console, "{yyyy mm dd HH:MM:ss}");
 
 config();
 
-
 const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
-	res.send("Working");
-})
+    res.send("Working");
+});
 
 app.listen(port, () => {
-	console.log(`App listening on port ${port}`)
-})
+    console.log(`App listening on port ${port}`);
+});
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages],
