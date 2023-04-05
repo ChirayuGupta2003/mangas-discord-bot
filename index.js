@@ -5,9 +5,22 @@ const path = require("path");
 const mongoose = require("mongoose");
 const manga = require("./models/manga.js");
 const { toonily, mangakakalot } = require("./scraper.js");
+const express = require("express");
 require("console-stamp")(console, "{yyyy mm dd HH:MM:ss}");
 
 config();
+
+
+const app = express();
+const port = 3000;
+
+app.get("/", (req, res) => {
+	res.send("Working");
+})
+
+app.listen(port, () => {
+	console.log(`App listening on port ${port}`)
+})
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages],
