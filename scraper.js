@@ -11,15 +11,10 @@ module.exports = {
     },
 
     async mangakakalot(url) {
-        return new Promise((resolve, reject) => {
-            axios.get(url).then((res) => {
-                const root = parse(res.data.toString());
-                resolve(
-                    parseInt(
-                        root.querySelector(".a-h > a").innerHTML.split(" ")[1]
-                    )
-                );
-            });
-        });
+        const result = await axios.get(url);
+        const root = parse(result.data);
+        return parseInt(
+            root.querySelector(".a-h > a").innerHTML.split(" ")[1]
+        );
     },
 };
