@@ -95,7 +95,7 @@ mongoose
         client.login(process.env.TOKEN).then(() => {
             setInterval(() => {
                 mangaWorker();
-            }, 1000 * 10);
+            }, 1000 * 60 * 10);
         });
     })
     .catch((error) => {
