@@ -10,8 +10,8 @@ require("console-stamp")(console, "{yyyy mm dd HH:MM:ss}");
 
 config();
 
-const app = express();
-const port = 3000;
+// const app = express();
+// const port = 3000;
 
 // app.get("/", (req, res) => {
 //     res.send("Working");
